@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>もぐらたたき</title>
+
+<style>
+body{
+    text-align:center;
+    font-family:sans-serif;
+}
+
+#game{
+    width:360px;
+    margin:20px auto;
+    display:grid;
+    grid-template-columns:repeat(3,120px);
+    gap:10px;
+}
+
+.hole{
+    width:120px;
+    height:120px;
+    background:#8B4513;
+    border-radius:50%;
+    cursor:pointer;
+    position:relative;
+}
+
+.mole{
+    background:#777;
+}
+
+#score{
+    font-size:28px;
+    margin:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>もぐらたたき</h1>
+<div id="score">スコア: 0</div>
+<button onclick="startGame()">スタート</button>
+
+<div id="game">
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+    <div class="hole"></div>
+</div>
+
+<script>
+const holes = document.querySelectorAll(".hole");
+const scoreText = document.getElementById("score");
+
+let score = 0;
+let gameTimer;
+
+function showMole(){
+    holes.forEach(h=>h.classList.remove("mole"));
+
+    const index = Math.floor(Math.random()*holes.length);
+    holes[index].classList.add("mole");
+}
+
+holes.forEach(hole=>{
+    hole.addEventListener("click",()=>{
+        if(hole.classList.contains("mole")){
+            score++;
+            scoreText.textContent="スコア: "+score;
+            hole.classList.remove("mole");
+        }
+    });
+});
+
+function startGame(){
+    score=0;
+    scoreText.textContent="スコア: 0";
+
+    clearInterval(gameTimer);
+
+    gameTimer=setInterval(showMole,700);
+
+    setTimeout(()=>{
+        clearInterval(gameTimer);
+        alert("ゲーム終了！ スコア: "+score);
+    },30000);
+}
+</script>
+
+</body>
+</html>
